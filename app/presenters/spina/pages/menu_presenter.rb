@@ -11,7 +11,7 @@ module Spina
       include ActiveSupport::Configurable
 
       config_accessor :list_tag, :list_wrapper, :list_item_tag, :list_item_css, :selected_css, :current_css, :first_css, :last_css
-      
+
       self.list_tag = :ul
       self.list_item_tag = :li
       self.list_item_css = nil
@@ -50,7 +50,7 @@ module Spina
       end
 
       def render_menu_items(menu_items)
-        content_tag(list_tag) do
+        content_tag(*list_tag) do
           menu_items.each_with_index.inject(ActiveSupport::SafeBuffer.new) do |buffer, (item, index)|
             buffer << render_menu_item(item, index, menu_items.length)
           end
@@ -61,7 +61,7 @@ module Spina
         content_tag(list_item_tag, class: menu_item_css(menu_item[0], index, menu_items_length)) do
           buffer = ActiveSupport::SafeBuffer.new
           buffer << link_to(menu_item[0].menu_title, "#{menu_item[0].materialized_path}")
-          buffer << render_list_wrapper(menu_item[1]) 
+          buffer << render_list_wrapper(menu_item[1])
           buffer
         end
       end
